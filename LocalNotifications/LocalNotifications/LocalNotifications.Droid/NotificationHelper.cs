@@ -1,15 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using LocalNotifications;
+
 using LocalNotifications.Droid;
 using Xamarin.Forms;
 using Application = Android.App.Application;
@@ -21,7 +14,15 @@ namespace LocalNotifications.Droid
     public class NotificationHelper : INotificationHelper
     {
         Context _context = Application.Context;
+
+        /// <summary>
+        /// Notification identification key
+        /// </summary>
         public const string IntentDataKey = "key";
+        
+        /// <summary>
+        ///  Notification ID
+        /// </summary>
         const int NotificationId = 0;
 
         public void Notify(string title, string body)
@@ -30,8 +31,7 @@ namespace LocalNotifications.Droid
 
             // Create a PendingIntent; we're only using one PendingIntent (ID = 0):
             const int pendingIntentId = 0;
-            PendingIntent pendingIntent = PendingIntent.GetActivity(_context, pendingIntentId, intent,
-                PendingIntentFlags.OneShot);
+            PendingIntent pendingIntent = PendingIntent.GetActivity(_context, pendingIntentId, intent, PendingIntentFlags.OneShot);
 
 
             // Instantiate the builder and set notification elements:
@@ -41,9 +41,9 @@ namespace LocalNotifications.Droid
                 .SetContentTitle(title)
                 .SetContentText(body)
                 .SetDefaults(NotificationDefaults.All)
-                .SetSmallIcon(Resource.Drawable.abc_ic_menu_overflow_material);
+                .SetSmallIcon(Resource.Drawable.abc_ic_menu_overflow_material)
+                .SetAutoCancel(true);
 
-            // builder.SetWhen(Java.Lang.JavaSystem.CurrentTimeMillis());
             // Build the notification:
             Notification notification = builder.Build();
 
@@ -70,8 +70,7 @@ namespace LocalNotifications.Droid
             intent.PutExtra(IntentDataKey, b);
 
             // Create a PendingIntent; we're only using one PendingIntent (ID = 0):
-            PendingIntent pendingIntent = PendingIntent.GetActivity(_context, NotificationId, intent,
-                PendingIntentFlags.OneShot);
+            PendingIntent pendingIntent = PendingIntent.GetActivity(_context, NotificationId, intent, PendingIntentFlags.OneShot);
 
 
             // Instantiate the builder and set notification elements:
@@ -81,7 +80,8 @@ namespace LocalNotifications.Droid
                 .SetContentTitle(title)
                 .SetContentText(body)
                 .SetDefaults(NotificationDefaults.All)
-                .SetSmallIcon(Resource.Drawable.abc_ic_menu_overflow_material);
+                .SetSmallIcon(Resource.Drawable.abc_ic_menu_overflow_material)
+                .SetAutoCancel(true);
 
             // builder.SetWhen(Java.Lang.JavaSystem.CurrentTimeMillis());
             // Build the notification:

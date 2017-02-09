@@ -25,6 +25,15 @@ namespace LocalNotifications.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
+            var settings = UIUserNotificationSettings.GetSettingsForTypes(
+            UIUserNotificationType.Alert
+            | UIUserNotificationType.Badge
+            | UIUserNotificationType.Sound,
+            new NSSet());
+
+
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+
             return base.FinishedLaunching(app, options);
         }
     }

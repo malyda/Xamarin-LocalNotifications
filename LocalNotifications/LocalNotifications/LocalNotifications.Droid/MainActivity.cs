@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -26,17 +26,33 @@ namespace LocalNotifications.Droid
             LoadApplication(new App());
 
 
-
-
-
             if (Intent.HasExtra(NotificationHelper.IntentDataKey))
             {
-               // Console.WriteLine(Intent.Extras.GetBundle("key").GetString("hello"));
-                App.Current.MainPage = new ReceiverPage();
+                ProcessNotificationData();
             }
-
         }
 
+        /// <summary>
+        /// Get data from notification and show ReceiverPage
+        /// </summary>
+        public void ProcessNotificationData()
+        {
+          //  Console.WriteLine(Intent.Extras.GetBundle(NotificationHelper.IntentDataKey).GetString("data1"));
+
+            // Get data from notification as Bundle object
+            Bundle bundleFromNotification = Intent.Extras.GetBundle(NotificationHelper.IntentDataKey);
+
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            // Copy data from bundle to Dictionary
+            foreach (var key in bundleFromNotification.KeySet())
+            {
+                data.Add(key, bundleFromNotification.GetString(key));
+            }
+
+            // Replace actual Page with ReceiverPage and pass data
+            Xamarin.Forms.Application.Current.MainPage = new ReceiverPage(data);
+        }
     }
 }
 

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Android.App;
 using Android.Content;
 using Android.OS;
-
+using Android.Util;
 using LocalNotifications.Droid;
 using Xamarin.Forms;
 using Application = Android.App.Application;
@@ -83,7 +85,6 @@ namespace LocalNotifications.Droid
                 .SetSmallIcon(Resource.Drawable.abc_ic_menu_overflow_material)
                 .SetAutoCancel(true);
 
-            // builder.SetWhen(Java.Lang.JavaSystem.CurrentTimeMillis());
             // Build the notification:
             Notification notification = builder.Build();
 
@@ -95,6 +96,23 @@ namespace LocalNotifications.Droid
             // Publish the notification:
 
             notificationManager.Notify(NotificationId, notification);
+        }
+        /// <summary>
+        /// Sets AlarmManager when to fire notification
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="body"></param>
+        /// <param name="when"></param>
+        public void NotifyWhen(string title, string body, DateTime when)
+        {
+            Intent alarmIntent = new Intent(Forms.Context, typeof(AlarmReceiver));
+            alarmIntent.PutExtra("message", body);
+            alarmIntent.PutExtra("title", title);
+
+            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Forms.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            AlarmManager alarmManager = (AlarmManager)Forms.Context.GetSystemService(Context.AlarmService);
+
+            alarmManager.Set(AlarmType.RtcWakeup, when.Millisecond, pendingIntent);
         }
     }
     

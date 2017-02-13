@@ -22,5 +22,7 @@ namespace LocalNotifications
         /// <param name="body"></param>
         void Notify(string title, string body, Dictionary<string, string> data);
 
+        void NotifyWhen(string title, string body, DateTime when);
+
     }
 }

@@ -31,6 +31,11 @@ namespace LocalNotifications
                         {
                             Text = "Show crossplatform notification",
                             Command = ShowNotifi()
+                        },
+                        new Button
+                        {
+                            Text = "Show crossplatform notification after 5 secs",
+                            Command = ShowNotifiNew()
                         }
                 }
             };
@@ -86,6 +91,15 @@ namespace LocalNotifications
             return new Command((() =>
             {
                 CrossLocalNotifications.Current.Show("Crossplatform notification", "Body text"); 
+            }));
+        }
+
+        Command ShowNotifiNew()
+        {
+            
+            return new Command((() =>
+            {
+                CrossLocalNotifications.Current.Show("title", "body", 101, DateTime.Now.AddSeconds(5));
             }));
         }
         /// <summary>

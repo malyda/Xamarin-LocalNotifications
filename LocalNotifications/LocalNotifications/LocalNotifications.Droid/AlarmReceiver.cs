@@ -32,14 +32,15 @@ namespace LocalNotifications.Droid
             {
                 body = intent.GetStringExtra("message");
                 title = intent.GetStringExtra("title");
+                NotificationHelper notificationHelper = new NotificationHelper();
+                notificationHelper.Notify(title, body);
             }
             else
             {
                 // Check for news, register notifications, start some action
             }
            
-            NotificationHelper notificationHelper = new NotificationHelper();
-            notificationHelper.Notify(title,body);
+     
         }
     }
 }
